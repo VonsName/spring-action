@@ -28,7 +28,7 @@ public class CdPlayerTest {
     }
 
     @Test
-    public void play(){
+    public void play() {
         cdPlayer.play();
     }
 }
