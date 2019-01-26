@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <!--启用AspectJ 自动代理 和注解@EnableAspectJAutoProxy功能相同-->
+    <aop:aspectj-autoproxy/>
+
+    <!--开启扫描-->
+    <context:component-scan base-package="com.von.spaction.aop"/>
+
+    <bean id="audiences" class="com.von.spaction.aop.Audience"/>
+
+    <!--<tx:advice id="interceptor" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="add*" />-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+
+
+    <bean id="defaultEncoreable2" class="com.von.spaction.aop.DefaultEncoreable"/>
+
+    <aop:config>
+        <aop:pointcut id="point" expression="execution(* com.von.spaction.aop.Performance.*(..))"/>
+        <!--<aop:advisor advice-ref="interceptor" pointcut-ref="point"/>-->
+        <aop:aspect ref="audiences">
+            <!--default-impl 和 delegate-ref 实现功能相同 且同时只能使用一个-->
+            <!--aop:declare-parents 功能是使Performance接口的实现类在继承体系中有新的父类类型Encoreable-->
+            <aop:declare-parents types-matching="com.von.spaction.aop.Performance+"
+                                 implement-interface="com.von.spaction.aop.Encoreable"
+                                delegate-ref="defaultEncoreable2"/>
+            <aop:around method="aroundCellPhones" pointcut-ref="point"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
