@@ -43,7 +43,7 @@ public class HomeControllerTest {
         HomeController homeController = new HomeController();
 //        assertEquals("home", homeController.home());
         MockMvc mockMvc = standaloneSetup(homeController).build();
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/spi").param("money","9999.99"))
                 .andExpect(MockMvcResultMatchers.view().name("home"));
     }
 
