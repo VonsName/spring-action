@@ -2,6 +2,9 @@ package com.von.spaction.springmvc;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
+
 /**
  * @author : vons
  * @version : 1.0
@@ -21,5 +24,11 @@ public class SpittrWebApplicationInitializer extends AbstractAnnotationConfigDis
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        //设置文件上传的保存的临时目录
+        registration.setMultipartConfig(new MultipartConfigElement("/tmp/spittr"));
     }
 }

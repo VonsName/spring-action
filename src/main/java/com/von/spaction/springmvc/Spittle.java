@@ -1,6 +1,10 @@
 package com.von.spaction.springmvc;
 
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -10,11 +14,17 @@ import java.util.Date;
  */
 public class Spittle {
 
+    @NotNull(message = "id只能不能为空")
     private Long id;
     private String message;
     private Date date;
     private Double latitude;
     private Double longitude;
+    @DecimalMax(value = "999.99",message = "最大金额不能超过999.99元")
+    private BigDecimal money;
+
+    public Spittle() {
+    }
 
     public Spittle(String message, Date date) {
         this(message, date, null, null);
@@ -66,6 +76,14 @@ public class Spittle {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
     @Override
