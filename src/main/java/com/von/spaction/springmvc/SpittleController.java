@@ -1,6 +1,7 @@
 package com.von.spaction.springmvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +52,20 @@ public class SpittleController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Spittle> spittle() {
         return spittleRepository.findSpittles(Long.MAX_VALUE, 20);
+    }
+
+    public static void main(String[] args) {
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.initialize();
+        taskExecutor.setCorePoolSize(5);
+        taskExecutor.setMaxPoolSize(10);
+        taskExecutor.setDaemon(false);
+        taskExecutor.execute(new MapTest());
+
+        try {
+            Thread.sleep(Integer.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
