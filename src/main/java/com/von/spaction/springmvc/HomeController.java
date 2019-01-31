@@ -5,6 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,7 +26,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "spi", method = RequestMethod.GET)
-    public String spi(@Valid Spittle spittle, Errors error) {
+    public String spi(@RequestPart(value = "profilePicture")byte[] profilePocture, @Valid Spittle spittle, Errors error) {
         if (error.hasErrors()) {
             List<FieldError> fieldErrors = error.getFieldErrors();
             FieldError item = fieldErrors.get(0);

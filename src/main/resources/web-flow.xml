@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-4.0.xsd
+            http://www.springframework.org/schema/webflow-config
+            http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd">
+
+    <!--将请求的URL匹配到流程上-->
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+        <property name="flowRegistry" ref="registry"/>
+    </bean>
+
+    <!--相当于SpringMvn的控制器 是Dispatcher和Spring web flow之间的桥梁-->
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <property name="flowExecutor" ref="flowExecutor"/>
+    </bean>
+
+    <!--流程执行器 负责创建和执行流程-->
+    <flow:flow-executor id="flowExecutor">
+        <flow:flow-execution-attributes></flow:flow-execution-attributes>
+    </flow:flow-executor>
+    <!--流程注册表 加载流程的定义 让流程执行器执行-->
+    <flow:flow-registry id="registry" base-path="classpath*:/flows">
+        <flow:flow-location-pattern value="*-flow.xml"/>
+        <flow:flow-location path="test-flow.xml" id=""/>
+    </flow:flow-registry>
+</beans>
