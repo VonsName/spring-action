@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+     http://www.springframework.org/schema/webflow/spring-webflow-2.3.xsd">
 
-</beans>
+    <var name="order" class="com.von.spaction.webflow.Order"/>
+    <subflow-state id="identity" subflow="">
+        <output name="customer" value="order.cutomer"/>
+        <transition on="builderOrder" to="takePayment"/>
+    </subflow-state>
+    <subflow-state id="builderOrder" subflow="pizza/order">
+        <input name="order" value="order"/>
+        <transition on="orderCreated" to="takePayment"/>
+    </subflow-state>
+    <subflow-state id="takePayment" subflow="">
+        <input name="order" value="order"/>
+        <transition on="paymentTaken" to="saveOrder"/>
+    </subflow-state>
+    <action-state id="saveOrder">
+        <evaluate expression=""
+    </action-state>
+    <view-state id="thankCustomer">
+        <transition to="endState"/>
+    </view-state>
+    <end-state id="endState"/>
+    <global-transitions>
+        <transition on="cancle" to="endState"/>
+    </global-transitions>
+
+</flow>

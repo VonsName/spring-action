@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.context.ServletContextAware;
@@ -33,7 +34,7 @@ import javax.servlet.ServletContext;
 @ComponentScan(basePackages = "com.von.spaction.springmvc")
 public class WebConfig implements WebMvcConfigurer, ServletContextAware {
 
-    @Autowired
+    @Autowired(required = false)
     private ServletContext servletContext;
 
     @Bean
@@ -71,7 +72,8 @@ public class WebConfig implements WebMvcConfigurer, ServletContextAware {
      * @param templateResolver
      * @return
      */
-    @Bean
+    @Bean(value = "tempEn")
+    @Primary
     public TemplateEngine templateEngine(ServletContextTemplateResolver templateResolver) {
         SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
         springTemplateEngine.setTemplateResolver(templateResolver);

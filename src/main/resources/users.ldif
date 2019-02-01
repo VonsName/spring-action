@@ -1,0 +1,2 @@
+dn: ou=groups,dc=habuma,dc=com
+objectclass: top
