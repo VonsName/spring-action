@@ -19,5 +19,12 @@ public class RegexTest {
         String str = "zozo";
         Matcher matcher = PATTERN.matcher(str);
         System.out.println(matcher.matches());
+
+        int a = 1, b, c;
+        a = b = a++;
+        c = a++ + b;
+        System.out.println("a:"+a);
+        System.out.println("b:"+b);
+        System.out.println("c:"+c);
     }
 }
