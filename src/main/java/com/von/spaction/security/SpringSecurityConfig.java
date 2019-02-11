@@ -33,7 +33,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .regexMatchers("/user/.*").hasRole("ADMIN")
                 .regexMatchers("/login/.*").access("hasRole('ROLE_ADMIN') and hasIpAddress('192.168.1.33') and hasAuthority('ROLE_MANAGE')")
                 .regexMatchers("/user/.*").hasIpAddress("192.168.1.123")
-                .antMatchers("/spitter/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/spitter/**").access("hasAuthority('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.POST, "spittles").authenticated()
                 .anyRequest().permitAll()
                 .and()
@@ -44,7 +44,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").requiresInsecure()
                 .and()
                 //formLogin :启用默认的登录页
-                .formLogin();
+                .formLogin()
+                .loginPage("/login")
+                .and()
+                .rememberMe()
+                .tokenValiditySeconds(3000)
+                .key("token")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .logoutUrl("/api/common/logout");
     }
 
     @Override
